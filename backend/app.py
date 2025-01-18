@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, jsonify
+from flask import Flask, request, jsonify
 import base64
 from openai import OpenAI
 import logging
@@ -11,23 +11,15 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
-# Blueprint for routes
-main = Blueprint('main', __name__)
-client = OpenAI(api_key=os.getenv('API_KEY'))
-logging.basicConfig(
-    level=logging.DEBUG, 
-    format='%(asctime)s - %(levelname)s - %(message)s', 
-)
-
 # Function to encode the image
 def encode_image(image_file):
     return base64.b64encode(image_file.read()).decode("utf-8")
 
-@main.route('/', methods=['GET'])
+@app.route('/', methods=['GET'])
 def test():
     return jsonify({"status_code": "success", "message": "server is running!"}), 200
 
-@main.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['POST'])
 def upload():
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
@@ -54,9 +46,6 @@ def upload():
         ],
     )
     return jsonify({"status_code": "success", "message": response.choices[0].message.content}), 200
-
-# Register the blueprint
-app.register_blueprint(main)
 
 if __name__ == '__main__':
     app.run(debug=True)
