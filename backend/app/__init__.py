@@ -14,7 +14,7 @@ def create_app(config_class=Config):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config_class)
     app.config.from_pyfile('config.py', silent=True)
-    CORS(app, origins=["http://localhost:3000"])
+    CORS(app, origins=["https://last-chance-frontend.vercel.app"])
 
     # db.init_app(app)
 
