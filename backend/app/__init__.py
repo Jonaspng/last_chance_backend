@@ -22,11 +22,11 @@ def create_app(config_class=Config):
     app.register_blueprint(main)
 
     # Logging setup
-    # if not app.debug:
-    #     handler = RotatingFileHandler('logs/app.log', maxBytes=10240, backupCount=10)
-    #     handler.setLevel(logging.INFO)
-    #     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    #     handler.setFormatter(formatter)
-    #     app.logger.addHandler(handler)
+    if not app.debug:
+        handler = RotatingFileHandler('logs/app.log', maxBytes=10240, backupCount=10)
+        handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        app.logger.addHandler(handler)
 
     return app
